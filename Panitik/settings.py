@@ -76,6 +76,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Panitik.wsgi.application'
 
 
+
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -85,6 +86,13 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
+import dj_database_url
+
+DATABASES['default'] = dj_database_url.parse("postgres://jiflmbzhnbyzpc:e9f73e391e92c6ec1fb87386961154310f6fb49b6e509e3ded3eb28e4447f3a4@ec2-52-54-200-216.compute-1.amazonaws.com:5432/dck4f20nfl0j0n", conn_max_age=600)
+
+
 
 
 # Password validation
