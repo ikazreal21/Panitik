@@ -1,0 +1,70 @@
+{% extends 'lms/base.html' %} 
+
+{% block title %} 
+
+Panitik - {{course.subject_name | title}}
+
+{% endblock %} 
+
+
+{% block content %} 
+
+<!-- <div class="row"> -->
+<div class="animated fadeIn">
+    <div class="col-md-12 col-lg-12">
+        <!-- <aside class="profile-nav alt"> -->
+            <div class="card">
+                <div class="card-body">
+                        <div class="card-header user-header alt bg-dark">
+                                <h2 class="text-light display-6">{{course.subject_name | title}}</h2>
+                                <h4 class="text-light">{{course.faculty}}</h4>
+                                <h5 class="text-light">{{course.schedule}}</>
+                                <p class="text-light">{{course.description}}</p>
+                        </div>
+                        
+                        
+                </div>
+            </div>
+                <!-- </aside> -->
+        <ul class="list-group list-group-flush">
+            <div class="card">
+                <div class="card-body">
+                    <li class="list-group-item">
+                        <a href="{% url 'meeting' course.id %}"> <i class="fa fa-envelope-o"></i> Meeting</a>
+                    </li>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <li class="list-group-item">
+                        <a href="{% url 'materials' course.id %}"> <i class="fa fa-tasks"></i> Class Materials <span class="badge badge-success pull-right">{{mat_count}}</span></a>
+                    </li>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <li class="list-group-item">
+                        <a href="#"> <i class="fa fa-bell-o"></i> Activity <span class="badge badge-success pull-right">11</span></a>
+                    </li>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <li class="list-group-item">
+                        <a href="#"> <i class="fa fa-comments-o"></i> Class Chat <span class="badge badge-success pull-right r-activity">03</span></a>
+                    </li>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <li class="list-group-item">
+                        <a href="#"> <i class="fa fa-comments-o"></i> Grades and Attendance <span class="badge badge-success pull-right r-activity">03</span></a>
+                    </li>
+                </div>
+            </div>
+        </ul>
+    </div>
+</div>
+
+
+{% endblock %}

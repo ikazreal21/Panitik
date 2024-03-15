@@ -1,0 +1,54 @@
+{% extends 'lms/base.html' %} 
+
+{% block title %} 
+
+Panitik - Courses
+
+{% endblock %} 
+
+
+{% block content %} 
+
+<div class="animated fadeIn">
+    <div class="row" style="padding-bottom: 2rem;">
+        <h1>Materials</h1>
+    </div>
+    <!-- Widgets  -->
+    {% for i in materials %}
+    <div class="row">
+      <div class="col-lg-12 col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="stat-widget-five">
+              <div class="stat-icon dib flat-color-1">
+                <i class="ti-layout-media-center-alt"></i>
+              </div>
+              <div class="stat-content">
+                <div class="text-left dib">
+                  <div class="stat-text">
+                    <span>{{i.subject.subject_name}} - {{i.subject.faculty}}</span>
+                  </div>
+                  <div class="stat-heading">{{i.title}}</div>
+                  <div class="stat-heading">Download the Pdf <a href="{% url 'download' i.id %}">Here...</div>
+                  <!-- {% if i.mode == '1' %}
+                    <div class="stat-heading">{{i.get_mode_display}}</div>
+                    <div class="stat-heading">{{i.get_platform_display}} <a href="{{i.room}}">Link Here</a></div>
+                    {% else %}
+                    <div class="stat-heading">{{i.get_mode_display}}</div>
+                    <div class="stat-heading">Room - <b>{{i.room}}</b></div>
+                  {% endif %} -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+
+    
+    <!-- /Widgets -->
+  </div>
+
+{% endblock %}
