@@ -28,8 +28,12 @@ Panitik - Courses
                   <div class="stat-text">
                     <span>{{i.subject.subject_name}} - {{i.subject.faculty}}</span>
                   </div>
-                  <div class="stat-heading">{{i.title}}</div>
+                  <div class="stat-heading">{{i.title}}</div>\
+                  {% if i.file_materials %}
                   <div class="stat-heading">Download the Pdf <a href="{% url 'download' i.id %}">Here...</div>
+                  {% else %}
+                  <div class="stat-heading">No file uploaded</div>
+                  {% endif %}
                   <!-- {% if i.mode == '1' %}
                     <div class="stat-heading">{{i.get_mode_display}}</div>
                     <div class="stat-heading">{{i.get_platform_display}} <a href="{{i.room}}">Link Here</a></div>
