@@ -15,6 +15,7 @@ urlpatterns = [
     path("materials/<str:pk>", views.CourseMaterials, name="materials"),
     path("activities/<str:pk>", views.CourseActivities, name="activities"),
     path("studentdetails/<str:pk>", views.StudentProfile, name="studentdetails"),
+    path("chat/<str:room_name>/", views.Chat, name='chat'),
 
     # AUTH
     path("register/", views.Register, name="register"),

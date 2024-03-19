@@ -28,8 +28,10 @@ def CourseDetails(request, pk):
     course = Subject.objects.get(id=pk)
     section = Section.objects.get(id=request.user.studentdetails.section.id)
     materials = SubjectMeeting.objects.filter(subject=course, section=section)
+    messages = Message.objects.filter(room=f"{course.subject_name}{section.section_name}")
     mat_count = materials.count()
-    context = {"course": course , "materials": materials, "mat_count": mat_count}
+    chatroom = f"{course.subject_name}{section.section_name}"
+    context = {"course": course , "materials": materials, "mat_count": mat_count, "chatroom": chatroom, "messages": messages.count()}
     return render(request, "lms/student/student_subject_info.html", context)
 
 @login_required(login_url="login")
@@ -55,6 +57,21 @@ def CourseActivities(request, pk):
 @login_required(login_url="login")
 def StudentProfile(request, pk):
     return render(request, "lms/student/student_profile.html")
+
+@login_required(login_url='login')
+def Chat(request, room_name):
+    # print(room_name)
+    username = request.user
+    messages = Message.objects.filter(room=room_name)[0:]
+    return render(
+        request,
+        'lms/student/student_chat.html',
+        {
+            'room_name': room_name,
+            'username': username,
+            'messages': messages,
+        },
+    )
 
 def Login(request):
     if request.method == "POST":

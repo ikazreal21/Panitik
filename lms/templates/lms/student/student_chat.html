@@ -1,0 +1,66 @@
+{% extends 'lms/base.html' %} 
+{% load static %}
+
+{% block title %} 
+
+Panitik - Courses
+
+{% endblock %} 
+
+
+{% block content %} 
+
+<div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title box-title">{{room_name}}</h4>
+          <div class="card-content">
+            <div class="messenger-box">
+            
+              <ul style="height: 610px; overflow: auto" id="messageBody">
+                {% for message in messages %}
+                <li>
+                  <div class="msg-received msg-container">
+                    <div class="msg-sent msg-container"></div>
+                    <div class="avatar">
+                      <div class="send-time">{{message.date_added|date:'N d h:i A' }}</div>
+                    </div>
+                    <div class="msg-box" id="message-text">
+                      <div class="inner-box">
+                        <div class="name"><b>{{message.username}}</b></div>
+                        <div class="meg">
+                            {{message.content}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                {% endfor %}
+              </ul>
+              <script>
+                var messageBody = document.querySelector('#messageBody');
+                messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+                </script>
+              <div class="send-mgs">
+                <div class="yourmsg">
+                  <input class="form-control" type="text" id="input" />
+                </div>
+                <button class="btn msg-send-btn" id="submit">
+                  <i class="pe-7s-paper-plane"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.messenger-box -->
+          </div>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+  </div>
+  {{request.user.username|json_script:"user_name"}}
+  {{room_name|json_script:"room-name"}}
+  <script src="{% static 'js/index.js' %}"></script>
+
+  {% endblock %}

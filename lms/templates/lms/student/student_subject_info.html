@@ -51,7 +51,7 @@ Panitik - {{course.subject_name | title}}
             <div class="card">
                 <div class="card-body">
                     <li class="list-group-item">
-                        <a href="#"> <i class="fa fa-comments-o"></i> Class Chat <span class="badge badge-success pull-right r-activity">03</span></a>
+                        <a href="{% url 'chat' chatroom|cut:' ' %}"> <i class="fa fa-comments-o"></i> Class Chat <span class="badge badge-success pull-right r-activity">{{messages}}</span></a>
                     </li>
                 </div>
             </div>
