@@ -2,66 +2,44 @@
 
 {% block title %} 
 
-Panitik - Home 
+Panitik
 
 {% endblock %} 
 
 
 {% block content %} 
 
-<div class="animated fadeIn">
-    <!-- <div class="row"> -->
-        <div class="col-md-12 col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <!-- <h4 class="box-title">Chandler</h4> -->
-                    <div class="calender-cont widget-calender"></div>
-                        <div id="calendar"></div>
-                    </div>
-                </div>
-        </div>
-</div>
-    <!-- </div> -->
-    <div class="modal fade none-border" id="event-modal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-hidden="true"
-            >
-              &times;
-            </button>
-            <h4 class="modal-title"><strong>Add New Event</strong></h4>
+<div class="content">
+  <div class="animated fadeIn">
+    <div class="row">
+      {% for i in courses %}
+      <div class="col-lg-4 col-md-4">
+        <div class="card" style="text-align: center;">
+          <div>
+            <div class="text-center dib">
+              <div class="stat-text">
+                <h2><b>{{i.subject.subject_name | title}}</b></h2>
+              </div>
+              <h3>{{i.subject.faculty | title}}</h3>
+            </div>
           </div>
-          <div class="modal-body"></div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-default waves-effect"
-              data-dismiss="modal"
-            >
-              Close
-            </button>
-            <button
-              type="button"
-              class="btn btn-success save-event waves-effect waves-light"
-            >
-              Create event
-            </button>
-            <button
-              type="button"
-              class="btn btn-danger delete-event waves-effect waves-light"
-              data-dismiss="modal"
-            >
-              Delete
-            </button>
+          <div class="card-body"  style="text-align: center;">
+            <div class="stat-widget-five-1">
+              <div class="stat-icon dib flat-color-1">
+                <a href="{% url 'activities' i.id %}"><i class="fa fa-book"></i><p>Activity</p></a> 
+                <a href="{% url 'chat' i.subject.subject_name|add:request.user.studentdetails.section.section_name|cut:' ' %}"><i class="fa fa-comments"></i><p>Chat</p></a> 
+                <a href="{% url 'meeting' i.id %}"><i class="fa fa-desktop"></i><p>Meeting</p></a> 
+                <a href="{% url 'announcement' i.id %}"><i class="fa fa-quote-right"></i><p>Announcement</p></a> 
+                <a href="{% url 'materials' i.id %}"><i class="fa fa-folder"></i><p>Class Materials</p></a> 
+                <a href=""><i class="fa fa-pencil-square-o"></i><p>Grade and Attendance</p></a> 
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      {% endfor %}
     </div>
   </div>
+</div>
 
 {% endblock %}

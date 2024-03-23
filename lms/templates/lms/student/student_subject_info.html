@@ -30,6 +30,20 @@ Panitik - {{course.subject_name | title}}
             <div class="card">
                 <div class="card-body">
                     <li class="list-group-item">
+                        <a href="{% url 'activities' course.id %}"> <i class="fa fa-bell-o"></i> Activity <span class="badge badge-success pull-right">{{activity}}</span></a>
+                    </li>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <li class="list-group-item">
+                        <a href="{% url 'chat' chatroom|cut:' ' %}"> <i class="fa fa-comments-o"></i> Class Chat <span class="badge badge-success pull-right r-activity">{{messages_count}}</span></a>
+                    </li>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <li class="list-group-item">
                         <a href="{% url 'meeting' course.id %}"> <i class="fa fa-envelope-o"></i> Meeting</a>
                     </li>
                 </div>
@@ -37,21 +51,14 @@ Panitik - {{course.subject_name | title}}
             <div class="card">
                 <div class="card-body">
                     <li class="list-group-item">
+                        <a href="{% url 'announcement' course.id %}"> <i class="fa fa-quote-right"></i> Announcement</a>
+                    </li>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <li class="list-group-item">
                         <a href="{% url 'materials' course.id %}"> <i class="fa fa-tasks"></i> Class Materials <span class="badge badge-success pull-right">{{mat_count}}</span></a>
-                    </li>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <li class="list-group-item">
-                        <a href="#"> <i class="fa fa-bell-o"></i> Activity <span class="badge badge-success pull-right">11</span></a>
-                    </li>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <li class="list-group-item">
-                        <a href="{% url 'chat' chatroom|cut:' ' %}"> <i class="fa fa-comments-o"></i> Class Chat <span class="badge badge-success pull-right r-activity">{{messages}}</span></a>
                     </li>
                 </div>
             </div>

@@ -1,0 +1,71 @@
+{% extends 'lms/base.html' %} 
+
+{% block title %} 
+
+Panitik - Profile
+
+{% endblock %} 
+
+
+{% block content %} 
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <strong>Edit Profile</strong>
+            </div>
+            <div class="card-body card-block">
+                <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal">
+                    {% csrf_token %}
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label class=" form-control-label">Username</label></div>
+                        <div class="col-12 col-md-9">
+                            <p class="form-control-static">{{request.user.username | title}}</p>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="email-input" class=" form-control-label">First Name </label></div>
+                        <div class="col-12 col-md-9">{{form.first_name}}<small class="help-block form-text">Please enter your First Name</small></div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="email-input" class=" form-control-label">Middle Name</label></div>
+                        <div class="col-12 col-md-9">{{form.middle_name}}<small class="help-block form-text">Please enter your Middle Name</small></div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="email-input" class=" form-control-label">Last Name </label></div>
+                        <div class="col-12 col-md-9">{{form.last_name}}<small class="help-block form-text">Please enter your Last Name</small></div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="email-input" class=" form-control-label">Email</label></div>
+                        <div class="col-12 col-md-9">{{form.email}}<small class="help-block form-text">Please enter your email</small></div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label class=" form-control-label">Gender</label></div>
+                        <div class="col col-md-9">
+                            {{form.gender}}
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label class=" form-control-label">Address</label></div>
+                        <div class="col col-md-9">
+                            {{form.address}}
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="file-input" class=" form-control-label">File input</label></div>
+                        <div class="col-12 col-md-9">{{form.profile_pic}}</div>
+                    </div>
+                    <button type="submit" class="btn btn-outline-dark">
+                        <i class="fa fa-dot-circle-o"></i> Submit
+                    </button>
+                    <button type="reset" class="btn btn-outline-secondary">
+                        <i class="fa fa-ban"></i> Reset
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

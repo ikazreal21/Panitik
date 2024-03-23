@@ -12,7 +12,15 @@ from .forms import *
 
 @login_required(login_url="login")
 def HomePage(request):
-    return render(request, "lms/index.html")
+    courses = StudentSubjectCourse.objects.filter(student=request.user.studentdetails)
+    
+    # print(courses)
+    context = {"courses": courses}
+    return render(request, "lms/index.html", context)
+
+@login_required(login_url="login")
+def Calendar(request):
+    return render(request, "lms/student/student_calendar.html")
 
 @login_required(login_url="login")
 def Courses(request):
@@ -28,10 +36,12 @@ def CourseDetails(request, pk):
     course = Subject.objects.get(id=pk)
     section = Section.objects.get(id=request.user.studentdetails.section.id)
     materials = SubjectMeeting.objects.filter(subject=course, section=section)
-    messages = Message.objects.filter(room=f"{course.subject_name}{section.section_name}")
+    activity = SubjectActivities.objects.filter(subject=course, section=section)
     mat_count = materials.count()
-    chatroom = f"{course.subject_name}{section.section_name}"
-    context = {"course": course , "materials": materials, "mat_count": mat_count, "chatroom": chatroom, "messages": messages.count()}
+    chatroom = f"{course.subject_name}{section.section_name}".replace(" ", "")
+    messages = Message.objects.filter(room=chatroom)[0:]
+
+    context = {"course": course , "materials": materials, "mat_count": mat_count, "chatroom": chatroom, "messages_count": messages.count(), "activity": activity.count()}
     return render(request, "lms/student/student_subject_info.html", context)
 
 @login_required(login_url="login")
@@ -52,11 +62,61 @@ def CourseMaterials(request, pk):
 
 @login_required(login_url="login")
 def CourseActivities(request, pk):
-    return render(request, "lms/student/subject_activities.html")
+    activities = SubjectActivities.objects.filter(subject=pk, is_open=True).order_by('deadline')
+    submit = SumbitActivities.objects.filter(student=request.user.studentdetails)
+    if len(submit):
+        is_submit = True
+    else:
+        is_submit = False
+    context = {"activities": activities, "is_submit": is_submit}
+    return render(request, "lms/student/subject_activities.html", context)
+
+@login_required(login_url="login")
+def SubmitActivities(request, pk):
+    activities = SubjectActivities.objects.get(subject=pk, is_open=True)
+    context = {"activities": activities}
+    if request.method == "POST":
+        print(request.FILES["file-input"])
+        try:
+            file = request.FILES["file-input"]
+        except MultiValueDictKeyError:
+            file = None
+        if file:
+            submit = SumbitActivities.objects.create(student=request.user.studentdetails, activity=activities, file_activities=file)
+            submit.save()
+            messages.success(request, "Activities Submitted Successfully")
+            return redirect("activities", pk=pk)
+        else:
+            messages.error(request, "Please select a file")
+    return render(request, "lms/student/submit_activities.html", context)
+
+@login_required(login_url="login")
+def CourseAnnouncement(request, pk):
+    section = Section.objects.get(id=request.user.studentdetails.section.id)
+    subject = Subject.objects.get(id=pk)
+    announcement = SubjectAnnouncement.objects.filter(subject=subject, section=section)
+    context = {"announcement": announcement}
+    return render(request, "lms/student/subject_announcement.html", context)
 
 @login_required(login_url="login")
 def StudentProfile(request, pk):
-    return render(request, "lms/student/student_profile.html")
+    profile = StudentDetails.objects.get(id=pk)
+    context = {"profile": profile}
+    return render(request, "lms/student/student_profile.html", context)
+
+@login_required(login_url="login")
+def EditProfile(request, pk):
+    profile = StudentDetails.objects.get(id=pk)
+    form = ProfileForm(instance=profile)
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save(commit=False).user = request.user
+            form.save()
+            messages.success(request, "Profile Updated Successfully")
+            return redirect("studentdetails", pk=pk)
+    context = {"form": form, "profile": profile}
+    return render(request, "lms/student/edit_profile.html", context)
 
 @login_required(login_url='login')
 def Chat(request, room_name):

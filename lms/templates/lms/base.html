@@ -9,7 +9,13 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Panitik</title>
+    <title>        
+      {% block title %} 
+
+      Panitik - Dashboard 
+
+      {% endblock %}
+    </title>
     <meta name="description" content="Panitik" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -106,6 +112,11 @@
           <ul class="nav navbar-nav">
             <li>
               <a href="{% url 'home' %}"
+                ><i class="menu-icon fa fa-tachometer"></i>Dashboard
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'calendar' %}"
                 ><i class="menu-icon fa fa-calendar"></i>Calendar
               </a>
             </li>
@@ -249,19 +260,9 @@
               </a>
 
               <div class="user-menu dropdown-menu">
-                <a class="nav-link" href="#"
+                <a class="nav-link" href="{% url 'studentdetails' request.user.studentdetails.id %}"
                   ><i class="fa fa- user"></i>My Profile</a
                 >
-
-                <a class="nav-link" href="#"
-                  ><i class="fa fa- user"></i>Notifications
-                  <span class="count">13</span></a
-                >
-
-                <a class="nav-link" href="#"
-                  ><i class="fa fa -cog"></i>Settings</a
-                >
-
                 <a class="nav-link" href="{% url 'logout' %}"
                   ><i class="fa fa-power -off"></i>Logout</a
                 >

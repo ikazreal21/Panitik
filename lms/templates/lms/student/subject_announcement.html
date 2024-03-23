@@ -2,7 +2,7 @@
 
 {% block title %} 
 
-Panitik - Activities
+Panitik - Courses
 
 {% endblock %} 
 
@@ -11,32 +11,26 @@ Panitik - Activities
 
 <div class="animated fadeIn">
     <div class="row" style="padding-bottom: 2rem;">
-        <h1>Activities</h1>
+        <h1>Announcement</h1>
     </div>
     <!-- Widgets  -->
-    {% for i in activities %}
+    {% for i in announcement %}
     <div class="row">
       <div class="col-lg-12 col-md-12">
         <div class="card">
           <div class="card-body">
             <div class="stat-widget-five">
               <div class="stat-icon dib flat-color-1">
-                <i class="ti-clipboard"></i>
+                <i class="ti-bolt"></i>
               </div>
               <div class="stat-content">
                 <div class="text-left dib">
                   <div class="stat-text">
                     <span>{{i.title}}</span>
                   </div>
-                  <div class="stat-text">
-                    Deadline: <span>{{i.date}}</span>
-                  </div>
+                  <div class="stat-heading">{{i.date}}</div>
                   <div class="stat-heading">
-                    {% if is_submit %}
-                      <p>Activity Submited</p>
-                    {% else %}
-                      <a href="{% url 'submitactivities' i.id %}">Submit Activity</a>
-                    {% endif %}
+                   <h3>{{i.description}}</h3>
                   </div>
                 </div>
               </div>

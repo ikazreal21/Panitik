@@ -37,6 +37,7 @@ class UserAdminConfig(UserAdmin):
         ),
     )
 
+
 admin.site.unregister(Group)
 admin.site.unregister(Theme)
 admin.site.register(CustomUser, UserAdminConfig)
@@ -45,6 +46,8 @@ admin.site.register(Subject)
 admin.site.register(SubjectMeeting)
 admin.site.register(SubjectMaterials)
 admin.site.register(SubjectActivities)
+admin.site.register(SumbitActivities)
+admin.site.register(SubjectAnnouncement)
 admin.site.register(StudentDetails)
 admin.site.register(Message)
 admin.site.register(StudentSubjectCourse)

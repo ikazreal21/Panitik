@@ -1,0 +1,64 @@
+{% extends 'lms/base.html' %} 
+
+{% block title %} 
+
+Panitik - Home 
+
+{% endblock %} 
+
+
+{% block content %} 
+
+<div class="animated fadeIn">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- <h4 class="box-title">Chandler</h4> -->
+                    <div class="calender-cont widget-calender"></div>
+                        <div id="calendar"></div>
+                    </div>
+                </div>
+        </div>
+</div>
+  <div class="modal fade none-border" id="event-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-hidden="true"
+          >
+            &times;
+          </button>
+          <h4 class="modal-title"><strong>Add New Event</strong></h4>
+        </div>
+        <div class="modal-body"></div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-default waves-effect"
+            data-dismiss="modal"
+          >
+            Close
+          </button>
+          <button
+            type="button"
+            class="btn btn-success save-event waves-effect waves-light"
+          >
+            Create event
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger delete-event waves-effect waves-light"
+            data-dismiss="modal"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
