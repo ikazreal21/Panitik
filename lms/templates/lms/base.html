@@ -252,11 +252,18 @@
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                <img
+
+                {% if profile.profile_pic %}
+                    <img class="align-self-center rounded-circle mr-3" style="width:100px; height:100px;" alt=""  
+                    src="{{profile.profile_pic.url}}"
+                  />
+                {% else %}
+                  <img
                   class="user-avatar rounded-circle"
                   src="https://api.dicebear.com/7.x/pixel-art/svg?seed={{request.user}}&hair=short01,short02,short03,short04,short05"
                   alt="User Avatar"
-                />
+                  />
+                {% endif %}
               </a>
 
               <div class="user-menu dropdown-menu">
