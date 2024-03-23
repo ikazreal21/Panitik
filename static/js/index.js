@@ -31,7 +31,7 @@ chatSocket.onmessage = function (e) {
       '</div>' +
       '<div class="msg-box" id="message-text">' +
       '<div class="inner-box">' +
-      '<div class="name"><b>' + userName + '</b></div>' +
+      '<div class="name"><b>' + data.message + '</b></div>' +
       '<div class="meg">' + data.message +
       '</div>' +
       '</div>' +
