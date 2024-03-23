@@ -255,7 +255,7 @@
 
                 {% if profile.profile_pic %}
                     <img class="user-avatar rounded-circle" alt=""  
-                    src="{{profile.profile_pic.url}}"
+                    src="{{request.user.studentdetails.profile_pic.url}}"
                   />
                 {% else %}
                   <img
