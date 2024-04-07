@@ -1,0 +1,56 @@
+{% extends 'lms/base.html' %} 
+
+{% block title %} 
+
+Panitik - Activities
+
+{% endblock %} 
+
+
+{% block content %} 
+
+<div class="animated fadeIn">
+    <div class="row" style="padding-bottom: 2rem;">
+        <h1>Activities</h1>
+    </div>
+    <a class="btn btn-outline-dark" href="{% url 'faculty_activity' subject_id=subject section_id=section %}" style="margin-bottom: 1rem;">Create Activity</a>
+    <!-- Widgets  -->
+    {% for i in activities %}
+    <div class="row">
+      <div class="col-lg-12 col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="stat-widget-five">
+              <div class="stat-icon dib flat-color-1">
+                <i class="ti-clipboard"></i>
+              </div>
+              <div class="stat-content">
+                <div class="text-left dib">
+                  <div class="stat-text">
+                    <span>{{i.title}}</span>
+                  </div>
+                  <div class="stat-text">
+                    Deadline: <span>{{i.date}}</span>
+                  </div>
+                  <!-- <div class="stat-heading">
+                    {% if is_submit %}
+                      <p>Activity Submited</p>
+                    {% else %}
+                      <a href="{% url 'submitactivities' i.id %}">Submit Activity</a>
+                    {% endif %}
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+
+    
+    <!-- /Widgets -->
+  </div>
+
+{% endblock %}

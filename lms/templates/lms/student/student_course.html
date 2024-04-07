@@ -23,11 +23,11 @@ Panitik - Courses
               <div class="stat-content">
                 <div class="text-left dib">
                   <div class="stat-text">
-                    <span><a href="{% url 'courseinfo' i.subject.id %}">
-                      {{i.subject.subject_name}}</a></span>
+                    <span><a href="{% url 'courseinfo' i.id %}">
+                      {{i.subject_name}}</a></span>
                   </div>
-                  <div class="stat-heading">{{i.subject.schedule}}</div>
-                  <div class="stat-heading">{{i.subject.faculty}}</div>
+                  <div class="stat-heading">{{i.schedule}}</div>
+                  <div class="stat-heading">{{i.faculty.last_name}}, {{i.faculty.first_name}} {{i.faculty.last_name}}</div>
                 </div>
               </div>
             </div>

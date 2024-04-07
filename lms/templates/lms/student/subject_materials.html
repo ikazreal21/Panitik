@@ -28,8 +28,9 @@ Panitik - Materials
                   <div class="stat-text">
                     <span>{{i.subject.subject_name}} - {{i.subject.faculty}}</span>
                   </div>
-                  <div class="stat-heading">{{i.title}}</div>\
+                  <div class="stat-heading">{{i.title}}</div>
                   {% if i.file_materials %}
+                  <div class="stat-heading">View Material Here <a href="{{i.file_materials.url}}" target="_blank">Here...</div>
                   <div class="stat-heading">Download the Pdf <a href="{% url 'download' i.id %}">Here...</div>
                   {% else %}
                   <div class="stat-heading">No file uploaded</div>

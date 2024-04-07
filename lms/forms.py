@@ -39,3 +39,8 @@ class ProfileForm(ModelForm):
         fields = ["first_name", "middle_name", "last_name", "gender", "address", "email", "profile_pic"]
 
     widgets = {"bdate": DateInput()}
+
+class FacultyActivityForm(ModelForm):
+    class Meta:
+        model = SubjectActivities
+        fields = '__all__'

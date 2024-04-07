@@ -1,0 +1,46 @@
+{% extends 'lms/base.html' %} 
+
+{% block title %} 
+
+Panitik Faculty - Dashboard
+
+{% endblock %} 
+
+
+{% block content %} 
+
+<div class="content">
+  <div class="animated fadeIn">
+    <div class="row">
+      {% for i in subjects %}
+      <div class="col-lg-4 col-md-4">
+        <div class="card" style="text-align: center;">
+          <div>
+            <div class="text-center dib">
+              <div class="stat-text">
+                <h2><b>{{i.section.subject.subject_name | title}}</b></h2>
+              </div>
+                <h3>{{i.section.section.section_name | title}}</h3>
+              <h3>{{i.section.grade_level | title}}</h3>
+            </div>
+          </div>
+          <div class="card-body"  style="text-align: center;">
+            <div class="stat-widget-five-1">
+              <div class="stat-icon dib flat-color-1">
+                <a href="{% url 'faculty_list_activity' subject_id=i.section.subject.id section_id=i.section.section.id %}"><i class="fa fa-book"></i><p>Activity</p></a> 
+                <a href=""><i class="fa fa-comments"></i><p>Chat</p></a> 
+                <a href=""><i class="fa fa-desktop"></i><p>Meeting</p></a> 
+                <a href=""><i class="fa fa-quote-right"></i><p>Announcement</p></a> 
+                <a href=""><i class="fa fa-folder"></i><p>Class Materials</p></a> 
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

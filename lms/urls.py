@@ -20,6 +20,13 @@ urlpatterns = [
     path("editprofile/<str:pk>", views.EditProfile, name="editprofile"),
     path("announcement/<str:pk>", views.CourseAnnouncement, name="announcement"),
     path("chat/<str:room_name>/", views.Chat, name='chat'),
+    path("announcement_all/", views.AnnouncementAll, name="announcement-all"),
+
+    # Faculty
+    path("faculty/", views.FacultyDashboard, name="faculty"),
+    path("faculty_list_activity/<str:subject_id>/<str:section_id>/", views.FacultyListActivity, name="faculty_list_activity"),
+    path("faculty_activity/<str:subject_id>/<str:section_id>/", views.FacultyActivity, name="faculty_activity"),
+
 
     # AUTH
     path("register/", views.Register, name="register"),

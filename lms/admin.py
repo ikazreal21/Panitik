@@ -50,7 +50,9 @@ admin.site.register(SumbitActivities)
 admin.site.register(SubjectAnnouncement)
 admin.site.register(StudentDetails)
 admin.site.register(Message)
-admin.site.register(StudentSubjectCourse)
+admin.site.register(GradeLevel)
+admin.site.register(Announcement)
+admin.site.register(FacultyDetails)
 
 admin.site.site_header = "Panitik Admin"
 admin.site.site_title = "Panitik Admin Portal"

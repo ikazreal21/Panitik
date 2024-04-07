@@ -107,6 +107,7 @@
   <body>
     <!-- Left Panel -->
     <aside id="left-panel" class="left-panel">
+      {% if request.use.is_student %}
       <nav class="navbar navbar-expand-sm navbar-default">
         <div id="main-menu" class="main-menu collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -125,15 +126,43 @@
                 <i class="menu-icon ti-bookmark"></i>Courses
               </a>
             </li>
+            <li>
+              <a href="{% url 'announcement-all' %}">
+                <i class="menu-icon fa fa-quote-right"></i>Announcement
+              </a>
+            </li>
           </ul>
         </div>
       </nav>
+      {% else %}
+      <nav class="navbar navbar-expand-sm navbar-default">
+        <div id="main-menu" class="main-menu collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="{% url 'faculty' %}"
+                ><i class="menu-icon fa fa-tachometer"></i>Dashboard
+              </a>
+            </li>
+            <li>
+              <a href="">
+                <i class="menu-icon ti-bookmark"></i>Quiz
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'announcement-all' %}">
+                <i class="menu-icon fa fa-quote-right"></i>Announcement
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      {% endif %}
     </aside>
     <div id="right-panel" class="right-panel">
       <header id="header" class="header">
         <div class="top-left">
           <div class="navbar-header">
-            <a class="navbar-brand" href="./"><h1>Panitik</h1></a>
+            <a class="navbar-brand" href="./"><h2>Panitik</h2></a>
             <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
           </div>
         </div>
@@ -252,7 +281,7 @@
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-
+              {% if request.user.is_student %}
                 {% if profile.profile_pic %}
                     <img class="user-avatar rounded-circle" alt=""  
                     src="{{request.user.studentdetails.profile_pic.url}}"
@@ -264,12 +293,20 @@
                   alt="User Avatar"
                   />
                 {% endif %}
+              {% else %}
+                  <img
+                  class="user-avatar rounded-circle"
+                  src="https://api.dicebear.com/7.x/pixel-art/svg?seed={{request.user}}&hair=short01,short02,short03,short04,short05"
+                  alt="User Avatar"
+                  />
+                {% endif %}
               </a>
-
               <div class="user-menu dropdown-menu">
+                {% if request.user.is_student %}
                 <a class="nav-link" href="{% url 'studentdetails' request.user.studentdetails.id %}"
                   ><i class="fa fa- user"></i>My Profile</a
                 >
+                {% endif %}
                 <a class="nav-link" href="{% url 'logout' %}"
                   ><i class="fa fa-power -off"></i>Logout</a
                 >

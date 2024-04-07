@@ -11,21 +11,28 @@ from django.db import models
 
 class CustomUser(AbstractUser):
     is_student = models.BooleanField(default=False, verbose_name='Student')
+    
+
+class GradeLevel(models.Model):
+    grade_level = models.CharField(max_length=50, null=True, blank=True)
+    subjects = models.ManyToManyField('Subject')
+    
+    def __str__(self):
+        return self.grade_level
 
 class Section(models.Model):
     section_name = models.CharField(max_length=50, null=True, blank=True)
+    grade_level = models.ForeignKey(GradeLevel, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return self.section_name
-
+        return f"{self.section_name } - {self.grade_level}"
 
 class Subject(models.Model):
     subject_name = models.CharField(max_length=50, null=True, blank=True)
     schedule = models.CharField(max_length=50, null=True, blank=True)
-    faculty = models.CharField(max_length=50, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
+    faculty = models.ForeignKey('FacultyDetails', on_delete=models.CASCADE, null=True, blank=True)
     
-
     def __str__(self):
         return self.subject_name
     
@@ -106,6 +113,7 @@ class SumbitActivities(models.Model):
     student = models.ForeignKey('StudentDetails', on_delete=models.CASCADE, null=True, blank=True)
     activity = models.ForeignKey(SubjectActivities, on_delete=models.CASCADE, null=True, blank=True)
     file_activities = models.FileField(upload_to="uploads/activities", null=True, blank=True)
+    text_answer = models.TextField(null=True, blank=True)
     date_submitted = models.DateTimeField(auto_now_add=True)
 
     class Meta:  
@@ -182,7 +190,6 @@ class StudentSubjectCourse(models.Model):
         return f'{self.student} - {self.subject}'
 
 
-
 class Message(models.Model):
     username = models.CharField(max_length=255)
     room = models.CharField(max_length=255)
@@ -191,3 +198,37 @@ class Message(models.Model):
 
     class Meta:
         ordering = ("date_added",)
+
+class Announcement(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ("date_added",)
+
+    def date(self):
+        # locale.setlocale(locale.LC_ALL, 'en-US')
+        return self.date_added.strftime("%B %d, %Y")
+
+    def __str__(self):
+        return self.title
+    
+    
+# Faculty
+class FacultyDetails(models.Model):
+    GENDER = (
+        ("M", "Male"),
+        ("F", "Female"),
+    )
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+    first_name = models.CharField(max_length=50, null=True, blank=True)
+    middle_name = models.CharField(max_length=50, null=True, blank=True)
+    last_name = models.CharField(max_length=50, null=True, blank=True)
+    gender = models.CharField(max_length=1, choices=GENDER, null=True, blank=True)
+    # subjects = models.ManyToManyField(Subject)
+    class Meta:
+        verbose_name_plural = 'Faculty Details'
+    
+    def __str__(self):
+        return f'{self.first_name} {self.middle_name} {self.last_name}'
