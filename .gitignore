@@ -1,2 +1,6 @@
 001 elaadmin-master/
 047 notes-html-template-master/
+lms/__pycache__/
+lms/migrations/
+Panitik/__pycache__/
+db.sqlite3
