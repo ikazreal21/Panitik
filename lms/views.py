@@ -10,9 +10,17 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import *
 
+def LandingPage(request):
+    return render(request, "lms/landing_page.html")
+
 @login_required(login_url="login")
 def HomePage(request):
-    courses = request.user.studentdetails.section.grade_level.subjects.all()
+    if request.user.is_superuser:
+        return redirect("admin:index")
+    elif not request.user.is_student:
+        return redirect("faculty")
+    else:
+        courses = request.user.studentdetails.section.grade_level.subjects.all()
     
     # print(courses)
     context = {"courses": courses}
@@ -193,17 +201,22 @@ def Login(request):
         password = request.POST.get("password")
 
         user = authenticate(request, username=username, password=password)
-        custominfo = CustomUser.objects.filter(username=user)
-        if len(custominfo):
-            if custominfo[0].is_student:
-                userDet = StudentDetails.objects.filter(user=user)
-                profile_redirect = 'home'
-            else:
-                userDet = FacultyDetails.objects.filter(user=user)
-                profile_redirect = 'faculty'
-            if user is not None:
-                login(request, user)
-                return redirect(profile_redirect)
+        if user is not None:
+            custominfo = CustomUser.objects.filter(username=user)
+            if user.is_superuser:
+                return redirect("admin:index")
+            if len(custominfo):
+                if custominfo[0].is_student:
+                    userDet = StudentDetails.objects.filter(user=user)
+                    profile_redirect = 'home'
+                else:
+                    userDet = FacultyDetails.objects.filter(user=user)
+                    profile_redirect = 'faculty'
+                if user is not None:
+                    login(request, user)
+                    return redirect(profile_redirect)
+                else:
+                    messages.info(request, 'Username OR password is incorrect')
             else:
                 messages.info(request, 'Username OR password is incorrect')
         else:
@@ -232,7 +245,7 @@ def Register(request):
 
 def Logout(request):
     logout(request)
-    return redirect("login")
+    return redirect("landing")
 
 # Download
 from django.http import HttpResponse

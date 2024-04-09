@@ -69,6 +69,28 @@
               <img class="align-content" src="images/logo.png" alt="" />
             </a>
           </div>
+          {% if messages %}
+            {% for message in messages %}
+              {% if message.tags == 'success' %}
+              <div class="sufee-alert alert with-close alert-primary alert-dismissible fade show" style="margin-bottom: 1rem;">
+                <span class="badge badge-pill badge-primary">Success</span>
+                {{message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              {% endif %}
+              {% if message.tags == 'error' %}
+              <div class="sufee-alert alert with-close alert-danger alert-dismissible fade show" style="margin-bottom: 1rem;">
+                <span class="badge badge-pill badge-danger">Error</span>
+                {{message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
           <div class="login-form">
             <form method="POST">
               {% csrf_token %}
@@ -102,8 +124,6 @@
               >
                 Sign in
               </button>
-
-
 
             </form>
           </div>
