@@ -28,6 +28,7 @@ Panitik Faculty - Dashboard
             <div class="stat-widget-five-1">
               <div class="stat-icon dib flat-color-1">
                 <a href="{% url 'faculty_list_activity' subject_id=i.section.subject.id section_id=i.section.section.id %}"><i class="fa fa-book"></i><p>Activity</p></a> 
+                <a href="{% url 'faculty_list_quiz' subject_id=i.section.subject.id section_id=i.section.section.id %}"><i class="fa  fa-circle-o"></i><p>Quiz</p></a> 
                 <a href=""><i class="fa fa-comments"></i><p>Chat</p></a> 
                 <a href=""><i class="fa fa-desktop"></i><p>Meeting</p></a> 
                 <a href=""><i class="fa fa-quote-right"></i><p>Announcement</p></a> 

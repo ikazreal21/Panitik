@@ -180,7 +180,9 @@ def FacultyActivity(request, subject_id, section_id):
 
 def FacultyQuiz(request, subject_id, section_id):
     quiz = Quiz.objects.filter(subject=subject_id, section=section_id)
-    context = {"quiz": quiz}
+    print(subject_id)
+    print(section_id)
+    context = {"quiz": quiz, "subject": subject_id, "section": section_id}
     return render(request, "lms/prof/quiz_builder.html", context)
 
 def FacultyQuizOpen(request, quiz_id):
@@ -216,20 +218,24 @@ def CreateQuiz(request, subject_id, section_id):
         quiz_id = uuid.uuid4()
         form = QuizForm(request.POST)
         if form.is_valid():
-            saved = save_excel_to_quiz_questions(request.FILES['file_questions'], topic, quiz_id)
-            if saved:
-                quiz = form.save(commit=False)
-                quiz.faculty = request.user
-                quiz.subject = Subject.objects.get(id=subject_id)
-                quiz.section = Section.objects.get(id=section_id)
-                quiz.quiz_id = quiz_id
-                quiz.save()
-                messages.success(request, "Quiz Questions Uploaded Successfully")
-                messages.success(request, "Quiz Created Successfully")
-                return redirect("faculty_list_quiz")
+            if request.FILES:
+                saved = save_excel_to_quiz_questions(request.FILES['file_questions'], topic, quiz_id)
+                if saved:
+                    quiz = form.save(commit=False)
+                    quiz.faculty = request.user
+                    quiz.subject = Subject.objects.get(id=subject_id)
+                    quiz.section = Section.objects.get(id=section_id)
+                    quiz.quiz_id = quiz_id
+                    quiz.save()
+                    messages.success(request, "Quiz Questions Uploaded Successfully")
+                    messages.success(request, "Quiz Created Successfully")
+                    return redirect("faculty_list_quiz", subject_id=subject_id, section_id=section_id)
+                else:
+                    messages.error(request, "Error uploading Quiz Questions")
+                    return redirect("create_quiz", subject_id=subject_id, section_id=section_id)
             else:
                 messages.error(request, "Error uploading Quiz Questions")
-                return redirect("create_quiz")
+                return redirect("create_quiz", subject_id=subject_id, section_id=section_id)
     return render(request, "lms/prof/create_quiz.html")
 
 @login_required(login_url='login')
