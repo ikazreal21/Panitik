@@ -232,3 +232,63 @@ class FacultyDetails(models.Model):
     
     def __str__(self):
         return f'{self.first_name} {self.middle_name} {self.last_name}'
+
+# class Test(models.Model):
+#     title = models.CharField(max_length=50, null=True, blank=True)
+#     description = models.TextField(null=True, blank=True)
+#     date_added = models.DateTimeField(auto_now_add=True)
+
+#     def __str__(self):
+#         return self.title
+
+class QuizQuestion(models.Model):
+    question = models.TextField(null=True, blank=True)
+    choice1 = models.CharField(max_length=255, null=True, blank=True)
+    choice2 = models.CharField(max_length=255, null=True, blank=True)
+    choice3 = models.CharField(max_length=255, null=True, blank=True)
+    choice4 = models.CharField(max_length=255, null=True, blank=True)
+    answer = models.CharField(max_length=255, null=True, blank=True)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, null=True, blank=True)
+    topic = models.CharField(max_length=255, null=True, blank=True)
+    quiz_id = models.CharField(max_length=255, null=True, blank=True, editable=False)
+
+    class Meta:  
+        verbose_name_plural = 'Quiz Questions'
+
+    def __str__(self):
+        return self.question
+    
+class Quiz(models.Model):
+    faculty = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+    title = models.CharField(max_length=50, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, null=True, blank=True)
+    section = models.ForeignKey(Section, on_delete=models.CASCADE, null=True, blank=True)
+    topic = models.CharField(max_length=50, null=True, blank=True)
+    numberofitems = models.IntegerField(null=True, blank=True)
+    is_open = models.BooleanField(default=True)
+    quiz_id = models.CharField(max_length=255, null=True, blank=True, editable=False)
+
+    class Meta:  
+        verbose_name_plural = 'Quizzes'
+
+    def __str__(self):
+        return self.title
+    
+    def date(self):
+        # locale.setlocale(locale.LC_ALL, 'en-US')
+        return self.date_added.strftime("%B %d, %Y")
+
+class QuizResult(models.Model):
+    student = models.ForeignKey(StudentDetails, on_delete=models.CASCADE, null=True, blank=True)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, null=True, blank=True)
+    score = models.IntegerField(null=True, blank=True)
+    date_taken = models.DateTimeField(auto_now_add=True)
+
+    class Meta:  
+        verbose_name_plural = 'Quiz Results'
+
+    def __str__(self):
+        return f'{self.student} - {self.quiz}'
+    

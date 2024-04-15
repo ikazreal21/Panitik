@@ -18,9 +18,8 @@
       </title>
     <meta name="description" content="Panitik" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="{% static 'images/favicon_io/favicon.ico' %}" type="image/x-icon">
 
-    <!-- <link rel="apple-touch-icon" href="https://i.imgur.com/QRAUqs9.png">
-    <link rel="shortcut icon" href="https://i.imgur.com/QRAUqs9.png"> -->
 
     <link
       rel="stylesheet"
@@ -64,11 +63,6 @@
     <div class="sufee-login d-flex align-content-center flex-wrap">
       <div class="container">
         <div class="login-content">
-          <div class="login-logo">
-            <a href="index.html">
-              <img class="align-content" src="images/logo.png" alt="" />
-            </a>
-          </div>
           {% if messages %}
             {% for message in messages %}
               {% if message.tags == 'success' %}
@@ -91,6 +85,11 @@
               {% endif %}
             {% endfor %}
           {% endif %}
+          <div class="login-logo">
+            <a href="#">
+              <img class="align-content" src="{% static 'images/B1.png' %}" alt="" />
+            </a>
+          </div>
           <div class="login-form">
             <form method="POST">
               {% csrf_token %}

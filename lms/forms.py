@@ -44,3 +44,8 @@ class FacultyActivityForm(ModelForm):
     class Meta:
         model = SubjectActivities
         fields = '__all__'
+
+class QuizForm(ModelForm):
+    class Meta:
+        model = QuizQuestion
+        fields = '__all__'

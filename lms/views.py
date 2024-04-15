@@ -178,7 +178,59 @@ def FacultyActivity(request, subject_id, section_id):
             return redirect("faculty")
     return render(request, "lms/prof/activity_builder.html")
 
+def FacultyQuiz(request, subject_id, section_id):
+    quiz = Quiz.objects.filter(subject=subject_id, section=section_id)
+    context = {"quiz": quiz}
+    return render(request, "lms/prof/quiz_builder.html", context)
 
+def FacultyQuizOpen(request, quiz_id):
+    quiz = Quiz.objects.get(id=quiz_id)
+    if quiz.is_open:
+        quiz.is_open = False
+    else:
+        quiz.is_open = True
+    quiz.save()
+    return redirect("faculty_list_quiz",subject_id=quiz.subject.id, section_id=quiz.section.id)
+
+def CreateQuestion(request):
+    if request.method == "POST":
+        form = QuizForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Question Created Successfully")
+            return redirect("faculty")
+    return render(request, "lms/prof/create_question.html")
+
+def UploadQuizQuestions(request):
+    if request.method == "POST":
+        saved = save_excel_to_quiz_questions(request.FILES['file'])
+        if saved:
+            messages.success(request, "Quiz Questions Uploaded Successfully")
+        else:
+            messages.error(request, "Error uploading Quiz Questions")
+    return render(request, "lms/prof/upload_quiz_questions.html")
+
+def CreateQuiz(request, subject_id, section_id):
+    if request.method == "POST":
+        topic = request.POST.get("topic")
+        quiz_id = uuid.uuid4()
+        form = QuizForm(request.POST)
+        if form.is_valid():
+            saved = save_excel_to_quiz_questions(request.FILES['file_questions'], topic, quiz_id)
+            if saved:
+                quiz = form.save(commit=False)
+                quiz.faculty = request.user
+                quiz.subject = Subject.objects.get(id=subject_id)
+                quiz.section = Section.objects.get(id=section_id)
+                quiz.quiz_id = quiz_id
+                quiz.save()
+                messages.success(request, "Quiz Questions Uploaded Successfully")
+                messages.success(request, "Quiz Created Successfully")
+                return redirect("faculty_list_quiz")
+            else:
+                messages.error(request, "Error uploading Quiz Questions")
+                return redirect("create_quiz")
+    return render(request, "lms/prof/create_quiz.html")
 
 @login_required(login_url='login')
 def Chat(request, room_name):
@@ -196,6 +248,12 @@ def Chat(request, room_name):
     )
 
 def Login(request):
+    if request.user.is_authenticated:
+        if request.user.is_student:
+            return redirect("home")
+        else:
+            return redirect("faculty")
+    
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -216,11 +274,11 @@ def Login(request):
                     login(request, user)
                     return redirect(profile_redirect)
                 else:
-                    messages.info(request, 'Username OR password is incorrect')
+                    messages.error(request, 'Username OR password is incorrect')
             else:
-                messages.info(request, 'Username OR password is incorrect')
+                messages.error(request, 'Username OR password is incorrect')
         else:
-            messages.info(request, 'Username OR password is incorrect')
+            messages.error(request, 'Username OR password is incorrect')
 
         # if user is not None:
         #     login(request, user)
@@ -250,9 +308,45 @@ def Logout(request):
 # Download
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+import pandas as pd
 
 def download(request, document_id):
     document = get_object_or_404(SubjectMaterials, pk=document_id)
     response = HttpResponse(document.file_materials, content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="{document.title}.pdf"'
     return response
+
+def save_excel_to_quiz_questions(file, topic):
+    try:
+        # Read the excel file
+        df = pd.read_excel(file)
+
+        # Iterate over each row in the dataframe
+        for index, row in df.iterrows():
+            # Extract the question, options, and correct answer from the row
+            question = row['Question']
+            option1 = row['Option 1']
+            option2 = row['Option 2']
+            option3 = row['Option 3']
+            option4 = row['Option 4']
+            correct_answer = row['Correct Answer']
+            # topic = row['Topic']
+            subject = row['Subject']
+
+            # Create a new QuizQuestion object and save it to the database
+            quiz_question = QuizQuestion.objects.create(
+                question=question, 
+                choice1=option1, 
+                choice2=option2, 
+                choice3=option3, 
+                choice4=option4, 
+                answer=correct_answer, 
+                subject=subject, 
+                topic=topic
+                )
+            quiz_question.save()
+
+        return True
+    except Exception as e:
+        print(f"Error saving excel file to QuizQuestion table: {str(e)}")
+        return False

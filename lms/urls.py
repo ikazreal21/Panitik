@@ -27,7 +27,9 @@ urlpatterns = [
     path("faculty/", views.FacultyDashboard, name="faculty"),
     path("faculty_list_activity/<str:subject_id>/<str:section_id>/", views.FacultyListActivity, name="faculty_list_activity"),
     path("faculty_activity/<str:subject_id>/<str:section_id>/", views.FacultyActivity, name="faculty_activity"),
-
+    path("faculty_list_quiz/<str:subject_id>/<str:section_id>/", views.FacultyQuiz, name="faculty_list_quiz"),
+    path("create_quiz/<str:subject_id>/<str:section_id>/", views.CreateQuiz, name="create_quiz"),
+    path("Isopen_quiz/<str:quiz_id>/", views.FacultyQuizOpen, name="isopen_quiz"),
 
     # AUTH
     path("register/", views.Register, name="register"),

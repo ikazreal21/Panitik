@@ -1,0 +1,63 @@
+{% extends 'lms/base.html' %} 
+
+{% block title %} 
+
+Panitik - Quiz
+
+{% endblock %} 
+
+
+{% block content %} 
+
+<div class="animated fadeIn">
+    <div class="row" style="padding-bottom: 2rem;">
+        <h1>Activities</h1>
+    </div>
+    <a class="btn btn-outline-dark" href="{% url 'create_quiz' subject_id=subject section_id=section %}" style="margin-bottom: 1rem;">Create Quiz</a>
+    <!-- Widgets  -->
+    {% for i in quiz %}
+    <div class="row">
+      <div class="col-lg-12 col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="stat-widget-five">
+              <div class="stat-icon dib flat-color-1">
+                <i class="ti-clipboard"></i>
+              </div>
+              <div class="stat-content">
+                <div class="text-left dib">
+                  <div class="stat-text">
+                    <span>{{i.title}}</span>
+                  </div>
+                    {% if i.is_open %}
+                    <div class="stat-text">
+                        <a href="{% url 'isopen_quiz' i.id %}">Close the Quiz</a>
+                    </div>
+                    {% else %}
+                    <div class="stat-text">
+                        <a href="{% url 'isopen_quiz' i.id %}">Open the Quiz</a>
+                    </div>
+                    {% endif %}
+                    
+                  <!-- <div class="stat-heading">
+                    {% if is_submit %}
+                      <p>Activity Submited</p>
+                    {% else %}
+                      <a href="{% url 'submitactivities' i.id %}">Submit Activity</a>
+                    {% endif %}
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+
+    
+    <!-- /Widgets -->
+  </div>
+
+{% endblock %}
