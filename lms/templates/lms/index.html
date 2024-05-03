@@ -28,6 +28,7 @@ Panitik
               <div class="stat-icon dib flat-color-1">
                 <a href="{% url 'activities' i.id %}"><i class="fa fa-book"></i><p>Activity</p></a> 
                 <a href="{% url 'chat' i.subject_name|add:request.user.studentdetails.section.section_name|cut:' ' %}"><i class="fa fa-comments"></i><p>Chat</p></a> 
+                <a href=""><i class="fa  fa-circle-o"></i><p>Quiz</p></a> 
                 <a href="{% url 'meeting' i.id %}"><i class="fa fa-desktop"></i><p>Meeting</p></a> 
                 <a href="{% url 'announcement' i.id %}"><i class="fa fa-quote-right"></i><p>Announcement</p></a> 
                 <a href="{% url 'materials' i.id %}"><i class="fa fa-folder"></i><p>Class Materials</p></a> 
